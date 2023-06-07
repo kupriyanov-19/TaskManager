@@ -4,8 +4,6 @@
 #include "ui/controller/GRPCEndPoint.h"
 #include "ui/StateMachine.h"
 #include "ui/Factory.h"
-//#include "logging/Initialisation.h"
-//#include "logging/Log.h"
 //#include <boost/program_options.hpp>
 
 //namespace options = boost::program_options;
