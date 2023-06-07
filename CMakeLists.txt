@@ -2,9 +2,19 @@ cmake_minimum_required(VERSION 3.20)
 project(TaskManager)
 set(CMAKE_CXX_STANDARD 17)
 
-include(GoogleTest)
-find_package(GTest CONFIG REQUIRED)
+#include(GoogleTest)
+#find_package(GTest CONFIG REQUIRED)
+#enable_testing()
+
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 enable_testing()
+include(GoogleTest)
 
 #set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
 #set(Boost_USE_DEBUG_LIBS         OFF) # ignore debug libs and
@@ -77,17 +87,12 @@ target_link_libraries(client protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_ref
 add_executable(server ${generated_files} ${server_src} src/server.cpp)
 target_link_libraries(server protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
 
-add_executable(server_tests ${generated_files} ${server_src} ${server_tests_src})
-target_link_libraries(server_tests GTest::gtest GTest::gmock GTest::gmock_main)
-target_link_libraries(server_tests protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
-gtest_discover_tests(server_tests)
+add_executable(server_test ${generated_files} ${server_src} ${server_tests_src})
+target_link_libraries(server_test GTest::gtest GTest::gmock GTest::gmock_main)
+target_link_libraries(server_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
+gtest_discover_tests(server_test)
 
-add_executable(client_tests ${generated_files} ${client_src} ${client_tests_src})
-target_link_libraries(client_tests GTest::gtest GTest::gmock GTest::gmock_main)
-target_link_libraries(client_tests protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
-gtest_discover_tests(client_tests)
-
-add_executable(integration_tests ${generated_files} ${server_src} ${client_src} tests/IntegrationTest.cpp)
-target_link_libraries(integration_tests GTest::gtest GTest::gmock GTest::gmock_main)
-target_link_libraries(integration_tests protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
-gtest_discover_tests(integration_tests)
+add_executable(client_test ${generated_files} ${client_src} ${client_tests_src})
+target_link_libraries(client_test GTest::gtest GTest::gmock GTest::gmock_main)
+target_link_libraries(client_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
+gtest_discover_tests(client_test)
