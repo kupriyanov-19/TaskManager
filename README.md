@@ -6,7 +6,7 @@ Client-server application for scheduling tasks. The application was created usin
 - Multiple client support
 - Support for using the application locally, without a server
 ## Installation
-### Linux and MacOS using CMake
+### Linux, MacOS or Windows using CMake
 1. Install `CMake`, minimum version: **3.20**
 2. Install libraries:
     - [Protobuf](https://github.com/protocolbuffers/protobuf)
@@ -15,7 +15,7 @@ Client-server application for scheduling tasks. The application was created usin
     - [GoogleTest](https://github.com/google/googletest)
 3. Build from source:
 ```
-git clone https://github.com/MichaelKupriianov/TaskManager.git
+git clone https://github.com/kupriyanov-19/TaskManager.git
 cd TaskManager
 mkdir build
 cd build

@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 project(TaskManager)
 set(CMAKE_CXX_STANDARD 17)
 
-#include(GoogleTest)
-#find_package(GTest CONFIG REQUIRED)
-#enable_testing()
-
 include(FetchContent)
 FetchContent_Declare(
         googletest
