@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message TaskId {
+  int32 value = 1;
+}
+
+message Task {
+  enum Priority {
+    HIGH = 0;
+    MEDIUM = 1;
+    LOW = 2;
+    NONE = 3;
+  }
+  enum Status {
+    IN_PROGRESS = 0;
+    COMPLETED = 1;
+  }
+  string title = 1;
+  Priority priority = 2;
+  google.protobuf.Timestamp date = 3;
+  repeated string labels = 4;
+  Status status = 5;
+}
+
+message HierarchicalTask {
+  Task task = 1;
+  TaskId parent = 2;
+}
+
+enum TasksSortBy {
+    ID = 0;
+    DAT = 1;
+    PRIORITY = 2;
+}

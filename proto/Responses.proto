@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "TaskStructures.proto";
+
+message AddTaskResponse {
+  bool result = 1;
+}
+
+message AddSubTaskResponse {
+  bool result = 1;
+}
+
+message EditResponse {
+  bool result = 1;
+}
+
+message DeleteResponse {
+  bool result = 1;
+}
+
+message CompleteResponse {
+  bool result = 1;
+}
+
+message ShowByLabelResponse {
+  ManyTasksWithId tasks = 1;
+}
+
+message ShowParentsResponse {
+  ManyTasksWithId tasks = 1;
+}
+
+message ShowTaskResponse {
+  CompositeTask task = 1;
+}
+
+message ShowAllResponse {
+  ManyCompositeTasks tasks = 1;
+}
+
+message SaveResponse {
+  bool result = 1;
+}
+
+message LoadResponse {
+  bool result = 1;
+}

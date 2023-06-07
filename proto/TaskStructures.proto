@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "Task.proto";
+
+message TaskWithId {
+  TaskId id = 1;
+  Task task = 2;
+}
+
+message ManyTasksWithId {
+  repeated TaskWithId tasks = 1;
+}
+
+message CompositeTask {
+  TaskWithId task = 1;
+  repeated TaskWithId children = 2;
+}
+
+message ManyCompositeTasks {
+  repeated CompositeTask tasks = 1;
+}

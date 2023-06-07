@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "Responses.proto";
+import "Requests.proto";
+
+service ModelService {
+  rpc AddTask(AddTaskRequest) returns (AddTaskResponse) {}
+  rpc AddSubTask(AddSubTaskRequest) returns (AddSubTaskResponse) {}
+  rpc Edit(EditRequest) returns (EditResponse) {}
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+  rpc Complete(CompleteRequest) returns (CompleteResponse) {}
+  rpc ShowByLabel(ShowByLabelRequest) returns (ShowByLabelResponse) {}
+  rpc ShowParents(ShowParentsRequest) returns (ShowParentsResponse) {}
+  rpc ShowTask(ShowTaskRequest) returns (ShowTaskResponse) {}
+  rpc ShowAll(ShowAllRequest) returns (ShowAllResponse) {}
+  rpc Save(SaveRequest) returns (SaveResponse) {}
+  rpc Load(LoadRequest) returns (LoadResponse) {}
+}
