@@ -34,7 +34,7 @@ step::Type View::ReadCommand() {
     if (auto result{convert::StringToStepType(command)}; result.has_value())
         return result.value();
 
-    printer_->PrintString("There is no such command\n");
+    printer_->PrintString("There is no such command. You can use the command 'help' if you have any problems.\n");
     return ReadCommand();
 }
 
@@ -67,7 +67,7 @@ std::string View::ReadTitle(const std::string& wizard) {
     if (!title.empty())
         return title;
 
-    printer_->PrintString("Title should be non-empty\n");
+    printer_->PrintString("Title should be non-empty\n ");
     return ReadTitle(wizard);
 }
 
