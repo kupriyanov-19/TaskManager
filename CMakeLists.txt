@@ -74,21 +74,5 @@ file(GLOB_RECURSE client_src src/ui/* src/utilities/* src/model/* src/persistenc
 file(GLOB_RECURSE server_tests_src tests/model/* tests/utilities/* tests/persistence/*)
 file(GLOB_RECURSE client_tests_src tests/ui/* tests/model/*.h)
 
-add_executable(TaskManager ${generated_files} ${server_src} ${client_src} src/main.cpp)
-target_link_libraries(TaskManager protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
-
-add_executable(client ${generated_files} ${client_src} src/client.cpp)
-target_link_libraries(client protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
-
 add_executable(server ${generated_files} ${server_src} src/server.cpp)
 target_link_libraries(server protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
-
-add_executable(server_test ${generated_files} ${server_src} ${server_tests_src})
-target_link_libraries(server_test GTest::gtest GTest::gmock GTest::gmock_main)
-target_link_libraries(server_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
-gtest_discover_tests(server_test)
-
-add_executable(client_test ${generated_files} ${client_src} ${client_tests_src})
-target_link_libraries(client_test GTest::gtest GTest::gmock GTest::gmock_main)
-target_link_libraries(client_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
-gtest_discover_tests(client_test)
