@@ -1,32 +1,38 @@
 # TaskManager
 ## Description
-Client-server application for scheduling tasks. The application was created using [Protobuf](https://developers.google.com/protocol-buffers), [GRPC](https://grpc.io) and [Boost](https://www.boost.org) libraries.
+Client-server application for scheduling tasks. The application was created using [Protobuf](https://developers.google.com/protocol-buffers) and [GRPC](https://grpc.io) libraries.
 ### Features
 - Comfortable labeling system
 - Multiple client support
 - Support for using the application locally, without a server
 ## Installation
-### Linux, MacOS or Windows using CMake
 1. Install `CMake`, minimum version: **3.20**
 2. Install libraries:
     - [Protobuf](https://github.com/protocolbuffers/protobuf)
     - [GRPC](https://github.com/grpc/grpc)
-    - [Boost](https://www.boost.org)
-    - [GoogleTest](https://github.com/google/googletest)
+   
+For example, if you have pacman, you can use:
+```
+pacman -Syyu pkgconf make git cmake clang grpc protobuf
+```
+   
 3. Build from source:
 ```
 git clone https://github.com/kupriyanov-19/TaskManager.git
+git checkout <what you want to launch: server, client or local>
 cd TaskManager
 mkdir build
 cd build
 cmake ..
 make
 ```
-4. Launch server (you can set the server port using `-p`):
+- If you want to launch server:
+
     - `./server`
-5. Launch client (you can set host using `-h` and port using `-p`):
+
+- If you want to launch client:
     - `./client`
-6. If you want to use the task manager locally:
+- If you want to use the task manager locally:
     - `./TaskManager`
 
 Enter `help` if you want to know about possible commands.
