@@ -12,18 +12,6 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 include(GoogleTest)
 
-#set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
-#set(Boost_USE_DEBUG_LIBS         OFF) # ignore debug libs and
-#set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs
-#set(Boost_USE_MULTITHREADED      ON)
-#set(Boost_USE_STATIC_RUNTIME    OFF)
-
-#find_package(Boost REQUIRED log_setup log program_options COMPONENTS)
-#if(Boost_FOUND)
-#    message(STATUS "Using BOOST ${Boost_VERSION}")
-#    include_directories(${Boost_INCLUDE_DIRS})
-#endif()
-
 find_package(Protobuf REQUIRED)
 message(STATUS "Using protobuf ${Protobuf_VERSION}")
 find_program(_PROTOBUF_PROTOC protoc)
@@ -74,5 +62,21 @@ file(GLOB_RECURSE client_src src/ui/* src/utilities/* src/model/* src/persistenc
 file(GLOB_RECURSE server_tests_src tests/model/* tests/utilities/* tests/persistence/*)
 file(GLOB_RECURSE client_tests_src tests/ui/* tests/model/*.h)
 
+add_executable(TaskManager ${generated_files} ${server_src} ${client_src} src/main.cpp)
+target_link_libraries(TaskManager protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
+
+add_executable(client ${generated_files} ${client_src} src/client.cpp)
+target_link_libraries(client protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
+
 add_executable(server ${generated_files} ${server_src} src/server.cpp)
-target_link_libraries(server protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection ${Boost_LIBRARIES})
+target_link_libraries(server protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
+
+add_executable(server_test ${generated_files} ${server_src} ${server_tests_src})
+target_link_libraries(server_test GTest::gtest GTest::gmock GTest::gmock_main)
+target_link_libraries(server_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
+gtest_discover_tests(server_test)
+
+add_executable(client_test ${generated_files} ${client_src} ${client_tests_src})
+target_link_libraries(client_test GTest::gtest GTest::gmock GTest::gmock_main)
+target_link_libraries(client_test protobuf::libprotobuf gRPC::grpc++ gRPC::grpc++_reflection)
+gtest_discover_tests(client_test)
