@@ -19,8 +19,8 @@ pacman -Syyu pkgconf make git cmake clang grpc protobuf
 3. Build from source:
 ```
 git clone https://github.com/kupriyanov-19/TaskManager.git
-git checkout <what you want to launch: server, client or local>
 cd TaskManager
+git checkout <what you want to launch: server, client or local>
 mkdir build
 cd build
 cmake ..
