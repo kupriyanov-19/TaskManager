@@ -142,5 +142,29 @@ private:
     const std::shared_ptr<Factory> factory_;
     const std::shared_ptr<View> view_;
 };
+
+    class Efficien : public Step {
+    public:
+        Efficien(const std::shared_ptr<Factory>&, const std::shared_ptr<View>&);
+        ~Efficien() override = default;
+
+        std::shared_ptr<Step> execute(Context&) override;
+        std::string name();
+    private:
+        const std::shared_ptr<Factory> factory_;
+        const std::shared_ptr<View> view_;
+    };
+
+    class Stat : public Step {
+    public:
+        Stat(const std::shared_ptr<Factory>&, const std::shared_ptr<View>&);
+        ~Stat() override = default;
+
+        std::shared_ptr<Step> execute(Context&) override;
+        std::string name();
+    private:
+        const std::shared_ptr<Factory> factory_;
+        const std::shared_ptr<View> view_;
+    };
 }
 }

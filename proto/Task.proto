@@ -22,6 +22,7 @@ message Task {
   google.protobuf.Timestamp date = 3;
   repeated string labels = 4;
   Status status = 5;
+  google.protobuf.Timestamp end = 6;
 }
 
 message HierarchicalTask {

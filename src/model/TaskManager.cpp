@@ -1,5 +1,5 @@
 #include "TaskManager.h"
-//#include "logging/Log.h"
+#include <chrono>
 #include "utilities/Convert.h"
 
 namespace model {
@@ -11,12 +11,10 @@ bool TaskManager::AddTask(const Task& task) {
     TaskId id{generator_->GenerateId()};
 
     if (tasks_.find(id) != tasks_.end()) {
-//        LOG(error, "IdGenerator returns the id {" + std::to_string(id.value()) + "}, that is already in use.");
         return false;
     }
     tasks_.insert({id, CreateHierarchicalTask(task, std::nullopt)});
 
-//    LOG(debug, "Task with {" + task.ShortDebugString() + "} added.");
     return true;
 }
 
@@ -45,6 +43,13 @@ bool TaskManager::Complete(const TaskId& id) {
     std::unique_lock lock(mutex_);
     if (tasks_.find(id) == tasks_.end())
         return false;
+
+    auto now = std::chrono::system_clock::now();
+    std::time_t end_time = std::chrono::system_clock::to_time_t(now);
+
+    google::protobuf::Timestamp time;
+    time.set_seconds(end_time);
+    tasks_[id].mutable_task()->set_allocated_end(std::make_unique<google::protobuf::Timestamp>(time).release());
 
     tasks_[id].mutable_task()->set_status(Task_Status_COMPLETED);
     for (const auto &[child_id, task]: tasks_)
@@ -82,7 +87,6 @@ ManyTasksWithId TaskManager::ShowByLabel(const std::string& label, const TasksSo
 
     {
         std::unique_lock lock(mutex_);
-//        LOG(debug, "Array from " + std::to_string(result.tasks_size()) + " tasks returned");
     }
 
     SortTasksWithId(result, sort_by);
@@ -94,7 +98,7 @@ ManyTasksWithId TaskManager::ShowParents(const TasksSortBy& sort_by) {
     {
         std::shared_lock lock(mutex_);
         for (const auto &[id, task]: tasks_)
-            if (!task.has_parent() && task.task().status() != Task_Status_COMPLETED)
+            if (!task.has_parent())
                 result.mutable_tasks()->Add(CreateTaskWithId(id, task.task()));
     }
 
@@ -111,7 +115,7 @@ CompositeTask TaskManager::ShowTask(const TaskId& parent, const TasksSortBy& sor
             return result;
 
         for (const auto &[id, task]: tasks_)
-            if (task.has_parent() && task.parent() == parent && task.task().status() != Task_Status_COMPLETED)
+            if (task.has_parent() && task.parent() == parent)
                 child.mutable_tasks()->Add(CreateTaskWithId(id, task.task()));
 
         result.set_allocated_task(

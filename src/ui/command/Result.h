@@ -15,10 +15,11 @@ public:
     explicit Result(const ManyTasksWithId& tasks) : many_tasks{tasks}, finished{false} {}
     explicit Result(const CompositeTask& task) : composite_task{task}, finished{false} {}
     explicit Result(const ManyCompositeTasks& tasks) : many_composite_tasks{tasks}, finished{false} {}
+    explicit Result(const std::string& result) : res{result}, finished{false} {}
 
     bool has_value() {
         return error.has_value() || many_tasks.has_value() || composite_task.has_value() ||
-               many_composite_tasks.has_value();
+               many_composite_tasks.has_value() || res.has_value();
     }
 
     const bool finished;
@@ -26,5 +27,6 @@ public:
     const std::optional<ManyTasksWithId> many_tasks;
     const std::optional<CompositeTask> composite_task;
     const std::optional<ManyCompositeTasks> many_composite_tasks;
+    const std::optional<std::string> res;
 };
 }

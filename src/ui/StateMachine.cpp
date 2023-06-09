@@ -33,15 +33,13 @@ void StateMachine::Run(const std::shared_ptr<Controller>& controller) {
         if (c==step::Type::ENTER) {
             const std::string name{view->ReadName("[Enter space of tasks]")};
             const std::string password{view->ReadPassword("[Enter space of tasks]")};
-            if (view->Confirm()) {
-                bool g = controller->Enter(name, password);
-                if (g) {
-                    view->PrintString("You successfully entered the space of tasks: " + name);
-                    nm=name;
-                    break;
-                }
-                else view->PrintString("Wrong name or password");
+            bool g = controller->Enter(name, password);
+            if (g) {
+                view->PrintString("You successfully entered the space of tasks: " + name);
+                nm=name;
+                break;
             }
+            else view->PrintString("Wrong name or password");
         }
     }
 

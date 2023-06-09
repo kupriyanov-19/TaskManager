@@ -94,4 +94,55 @@ Result Load::execute(const std::shared_ptr<Controller>& controller) {
     else
         return Result(false);
 }
+
+    Result Efficien::execute(const std::shared_ptr<Controller>& controller) {
+        auto tasks = controller ->ShowAll(TasksSortBy::ID);
+        std::string res{""};
+        int number=0, eff = 0;
+
+        for(auto task: tasks.tasks()) {
+            if (task.task().task().status() == Task_Status_COMPLETED) {
+                number++;
+                if (task.task().task().date().seconds()<=task.task().task().end().seconds()) eff++;
+            }
+             for(auto t : task.children()) {
+                 if (t.task().status()==Task_Status_COMPLETED) {
+                     number++;
+                     if (t.task().date().seconds()<=t.task().end().seconds()) eff++;
+                 }
+             }
+        }
+        if (number==0) res+="You completed 100% (0/0) tasks on time";
+        else {
+            res += "You completed " + std::to_string(static_cast<int>(eff * 100 / number))
+                   + "% (" + std::to_string(eff) + "/" + std::to_string(number) + ") "
+                   + "of the tasks (consider subtasks) in this task set on time";
+        }
+        return Result(res);
+    }
+
+    Result Stat::execute(const std::shared_ptr<Controller>& controller) {
+        auto tasks = controller ->ShowAll(TasksSortBy::ID);
+        std::string res{""};
+        if (tasks.tasks().size()==0) res+="You don't had any tasks";
+        else res+="You completed:";
+
+        for(auto task: tasks.tasks()) {
+            res+="\nFrom task "+ task.task().task().title() + ": ";
+            if (task.task().task().status() == Task_Status_COMPLETED) {
+                res+="100%\n"; continue;
+            }
+            int number = 0; int eff = 0;
+            for(auto t : task.children()) {
+                if (t.task().status()==Task_Status_COMPLETED) {
+                    number++; eff++;
+                }
+                else number++;
+            }
+            if (number == 0) res+="100%";
+            else res += std::to_string(static_cast<int>(eff*100/number)) + "%";
+        }
+        return Result(res);
+    }
+
 }

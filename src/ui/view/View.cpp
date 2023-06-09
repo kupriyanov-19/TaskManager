@@ -27,6 +27,8 @@ void View::PrintHelp() {
     output_string += "show - Show all tasks\n";
     output_string += "show_task - Show task with its subtasks\n";
     output_string += "show_by_label - Show tasks with some specific label\n";
+    output_string += "efficiency - What percentage of tasks you complete on time\n";
+    output_string += "statistics - What percentage of tasks are completed for each composite task\n";
     output_string += "quit - Finish work with this task space\n\n";
     printer_->PrintString(output_string);
 }
@@ -185,19 +187,25 @@ std::string View::ReadName(const std::string& wizard) {
 
 void View::PrintManyTasksWithId(const ManyTasksWithId& tasks) {
     for (const auto& task: tasks.tasks())
-        printer_->PrintString(convert::ToString(task) + '\n');
+        if (task.task().status()!=Task_Status_COMPLETED) {
+            printer_->PrintString(convert::ToString(task) + '\n');
+        }
     if (tasks.tasks().empty())
         printer_->PrintString("There are no such tasks now.\n");
 }
 
 void View::PrintCompositeTask(const CompositeTask& task) {
+    if (task.task().task().status()==Task_Status_COMPLETED) return;
     std::string result = convert::ToString(task.task());
     if (!task.children().empty())
         result += "  :";
     printer_->PrintString(result + '\n');
 
-    for (const auto& subtask: task.children())
-        printer_->PrintString("   " + convert::ToString(subtask) + '\n');
+    for (const auto& subtask: task.children()) {
+        if (subtask.task().status()!=Task_Status_COMPLETED) {
+            printer_->PrintString("   " + convert::ToString(subtask) + '\n');
+        }
+    }
 }
 
 void View::PrintManyCompositeTasks(const ManyCompositeTasks& tasks) {

@@ -16,8 +16,9 @@ enum class Type {
     SHOW_BY_LABEL,
     SAVE,
     LOAD,
-    FIRST,
     CREATE,
-    ENTER
+    ENTER,
+    EFF,
+    STAT
 };
 }

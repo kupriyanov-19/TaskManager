@@ -74,6 +74,8 @@ namespace convert {
         if (command == "load") return ui::step::Type::LOAD;
         if (command == "create") return ui::step::Type::CREATE;
         if (command == "enter") return ui::step::Type::ENTER;
+        if (command == "efficiency") return ui::step::Type::EFF;
+        if (command == "statistics") return ui::step::Type::STAT;
         return std::nullopt;
     }
 
