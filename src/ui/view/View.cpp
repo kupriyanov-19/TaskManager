@@ -6,6 +6,16 @@ namespace ui {
 View::View(const std::shared_ptr<Reader>& reader, const std::shared_ptr<Printer>& printer)
         : reader_{reader}, printer_{printer} {}
 
+    void View::PrintGlobalHelp() {
+        std::string output_string;
+        output_string += "First of all, you need to enter an existing space of tasks or create a new one:\n";
+        output_string += "You can use such command:\n";
+        output_string += "create - Create new space of tasks\n";
+        output_string += "enter - Enter an existing space of tasks\n";
+        output_string += "end - If you want to finish work\n";
+        printer_->PrintString(output_string);
+    }
+
 void View::PrintHelp() {
     std::string output_string;
     output_string += "You can use such command:\n";
@@ -17,15 +27,25 @@ void View::PrintHelp() {
     output_string += "show - Show all tasks\n";
     output_string += "show_task - Show task with its subtasks\n";
     output_string += "show_by_label - Show tasks with some specific label\n";
-    output_string += "save - GetAllTasks introduced tasks to a file\n";
-    output_string += "load - Overwrite tasks for a file\n";
-    output_string += "quit - finish work\n\n";
+    output_string += "quit - Finish work with this task space\n\n";
     printer_->PrintString(output_string);
 }
 
 void View::PrintQuit() {
     printer_->PrintString("Good luck!\n");
 }
+
+    step::Type View::ReadFirstCommand() {
+        printer_->PrintString("> ");
+        std::string command{reader_->ReadString()};
+
+        if (command=="create") return step::Type::CREATE;
+        if (command=="enter") return step::Type::ENTER;
+        if (command=="help") return step::Type::HELP;
+        if (command=="end") return step::Type::MAIN_QUIT;
+        printer_->PrintString("There is no such command. You can use the command 'help' if you have any problems.\n");
+        return ReadFirstCommand();
+    }
 
 step::Type View::ReadCommand() {
     printer_->PrintString("> ");
@@ -67,7 +87,7 @@ std::string View::ReadTitle(const std::string& wizard) {
     if (!title.empty())
         return title;
 
-    printer_->PrintString("Title should be non-empty\n ");
+    printer_->PrintString("Title should be non-empty\n");
     return ReadTitle(wizard);
 }
 
@@ -141,16 +161,27 @@ TasksSortBy View::ReadSortBy(const std::string& wizard) {
     return ReadSortBy(wizard);
 }
 
-std::string View::ReadFilename(const std::string& wizard) {
-    printer_->PrintString(wizard + " filename: ");
+std::string View::ReadName(const std::string& wizard) {
+    printer_->PrintString(wizard + " name: ");
     std::string filename{reader_->ReadString()};
 
     if (!filename.empty())
         return filename;
 
-    printer_->PrintString("Filename should be non-empty\n");
-    return ReadFilename(wizard);
+    printer_->PrintString("Name should be non-empty\n");
+    return ReadName(wizard);
 }
+
+    std::string View::ReadPassword(const std::string& wizard) {
+        printer_->PrintString(wizard + " password: ");
+        std::string password{reader_->ReadString()};
+
+        if (!password.empty())
+            return password;
+
+        printer_->PrintString("Password should be non-empty\n");
+        return ReadName(wizard);
+    }
 
 void View::PrintManyTasksWithId(const ManyTasksWithId& tasks) {
     for (const auto& task: tasks.tasks())

@@ -24,6 +24,9 @@ public:
 
     bool Save(const std::string& filename) override;
     bool Load(const std::string& filename) override;
+
+    bool Create(const std::string& name, const std::string& password) override;
+    bool Enter(const std::string& name, const std::string& password) override;
 private:
     std::shared_ptr<ModelService::StubInterface> stub_;
 };

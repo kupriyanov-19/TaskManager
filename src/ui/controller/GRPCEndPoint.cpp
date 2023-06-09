@@ -138,4 +138,24 @@ bool GRPCEndPoint::Load(const std::string& filename) {
     grpc::Status status = stub_->Load(&context, request, &response);
     return response.result();
 }
+
+    bool GRPCEndPoint::Create(const std::string& name, const std::string& password) {
+        CreateRequest request;
+        request.set_name(name);
+        CreateResponse response;
+        grpc::ClientContext context;
+
+        grpc::Status status = stub_->Create(&context, request, &response);
+        return response.result();
+    }
+
+    bool GRPCEndPoint::Enter(const std::string& name, const std::string& password) {
+        EnterRequest request;
+        request.set_name(name);
+        EnterResponse response;
+        grpc::ClientContext context;
+
+        grpc::Status status = stub_->Enter(&context, request, &response);
+        return response.result();
+    }
 }

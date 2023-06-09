@@ -16,11 +16,11 @@ TEST_F(ConvertTest, shouldConvertStringToPriority) {
 
 TEST_F(ConvertTest, shouldConvertStringToDate) {
     EXPECT_EQ(convert::StringToDate(""), 0);
-    EXPECT_EQ(convert::StringToDate("23:00 11/11").value(), 61594808400);
-    EXPECT_EQ(convert::StringToDate("11:00 3/5"), 61578172800);
-    EXPECT_EQ(convert::StringToDate("10:12 7/7"), 61583785920);
-    EXPECT_EQ(convert::StringToDate("4/4"), 61575627600);
-    EXPECT_EQ(convert::StringToDate("5/11"), 61594207200);
+    EXPECT_EQ(convert::StringToDate("23:00 11/11").value(), 1699736400);
+    EXPECT_EQ(convert::StringToDate("11:00 3/5").value(), 1683100800);
+    EXPECT_EQ(convert::StringToDate("10:12 7/7").value(), 1688713920);
+    EXPECT_EQ(convert::StringToDate("4/4").value(), 1680555600);
+    EXPECT_EQ(convert::StringToDate("5/11").value(), 1699135200);
     EXPECT_EQ(convert::StringToDate("25:00 3/5"), std::nullopt);
     EXPECT_EQ(convert::StringToDate("40/13"), std::nullopt);
 }
@@ -85,15 +85,15 @@ TEST_F(ConvertTest, shouldConvertDateToString) {
     google::protobuf::Timestamp date;
     date.set_seconds(0);
     EXPECT_EQ(convert::ToString(date), "none");
-    date.set_seconds(61594808400);
+    date.set_seconds(1699736400);
     EXPECT_EQ(convert::ToString(date), "Nov 11 23:00");
-    date.set_seconds(61578176400);
-    EXPECT_EQ(convert::ToString(date), "May  3 12:00");
-    date.set_seconds(61583789520);
-    EXPECT_EQ(convert::ToString(date), "Jul  7 11:12");
-    date.set_seconds(61575631200);
-    EXPECT_EQ(convert::ToString(date), "Apr  4 01:00");
-    date.set_seconds(61594207200);
+    date.set_seconds(1683100800);
+    EXPECT_EQ(convert::ToString(date), "May  3 11:00");
+    date.set_seconds(1688713920);
+    EXPECT_EQ(convert::ToString(date), "Jul  7 10:12");
+    date.set_seconds(1680555600);
+    EXPECT_EQ(convert::ToString(date), "Apr  4 00:00");
+    date.set_seconds(1699135200);
     EXPECT_EQ(convert::ToString(date), "Nov  5 00:00");
 }
 
@@ -103,7 +103,7 @@ TEST_F(ConvertTest, shouldConvertTaskToString) {
     EXPECT_EQ(convert::ToString(CreateTaskWithId(CreateTaskId(11), CreateTask("second", Task_Priority_LOW))),
               "id: 11, title: second, priority: low, date: none");
     EXPECT_EQ(convert::ToString(CreateTaskWithId(CreateTaskId(101),
-                                                 CreateTask("third", Task_Priority_MEDIUM, 61594808400))),
+                                                 CreateTask("third", Task_Priority_MEDIUM, 1699736400))),
               "id: 101, title: third, priority: medium, date: Nov 11 23:00");
     EXPECT_EQ(convert::ToString(CreateTaskWithId(CreateTaskId(2),
                                                  CreateTask("fourth", Task_Priority_NONE, 0, {"l1 l2"}))),

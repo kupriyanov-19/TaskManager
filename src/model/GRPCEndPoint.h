@@ -4,12 +4,12 @@
 #include "Requests.pb.h"
 #include "Responses.pb.h"
 #include "ModelService.grpc.pb.h"
-#include "Model.h"
+#include "TaskSpace.h"
 
 namespace model {
 class GRPCEndPoint : public ModelService::Service {
 public:
-    explicit GRPCEndPoint(const std::shared_ptr<Model>& model) : model_{model} {}
+    explicit GRPCEndPoint(const std::shared_ptr<TaskSpace>& model) : model_{model} {}
 
     grpc::Status AddTask(::grpc::ServerContext* context, const ::AddTaskRequest* request,
                          ::AddTaskResponse* response) override;
@@ -33,8 +33,12 @@ public:
                       ::SaveResponse* response) override;
     grpc::Status Load(::grpc::ServerContext* context, const ::LoadRequest* request,
                       ::LoadResponse* response) override;
+    grpc::Status Create(::grpc::ServerContext* context, const ::CreateRequest* request,
+                      ::CreateResponse* response) override;
+    grpc::Status Enter(::grpc::ServerContext* context, const ::EnterRequest* request,
+                      ::EnterResponse* response) override;
 
 private:
-    std::shared_ptr<Model> model_;
+    std::shared_ptr<TaskSpace> model_;
 };
 }

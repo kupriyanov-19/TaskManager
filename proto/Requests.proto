@@ -49,3 +49,13 @@ message SaveRequest {
 message LoadRequest {
   string filename = 1;
 }
+
+message EnterRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message CreateRequest {
+  string name = 1;
+  string password = 2;
+}

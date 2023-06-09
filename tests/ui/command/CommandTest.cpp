@@ -14,7 +14,7 @@ public:
         task_ = std::make_shared<Task>(CreateTask("title"));
         id_ = std::make_shared<TaskId>(CreateTaskId(3));
 
-        controller_ = std::make_shared<DefaultControllerMock>(std::make_shared<model::Model>(
+        controller_ = std::make_shared<DefaultControllerMock>(std::make_shared<model::TaskSpace>(
                 std::make_shared<model::TaskManager>(std::make_shared<model::IdGenerator>())));
     }
 

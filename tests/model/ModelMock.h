@@ -2,11 +2,11 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "model/Model.h"
+#include "model/TaskSpace.h"
 
-class ModelMock : public model::Model {
+class ModelMock : public model::TaskSpace {
 public:
-    explicit ModelMock(const std::shared_ptr<model::TaskManager>& manager) : model::Model(manager) {}
+    explicit ModelMock(const std::shared_ptr<model::TaskManager>& manager) : model::TaskSpace(manager) {}
 
     MOCK_METHOD(bool, AddTask, (const Task&), (override));
     MOCK_METHOD(bool, AddSubTask, (const Task&, const TaskId&), (override));

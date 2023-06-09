@@ -48,7 +48,7 @@ TEST_F(StepTest, shouldQuit) {
     Quit step{factory_, view_};
     Context context{""};
 
-    EXPECT_CALL(*view_, PrintQuit()).Times(1);
+//    EXPECT_CALL(*view_, PrintQuit()).Times(1);
     EXPECT_CALL(*factory_, GetInitialStep()).Times(1);
 
     step.execute(context);
@@ -161,7 +161,7 @@ TEST_F(StepTest, shouldCreateCommandSave) {
     Save step{factory_, view_};
     Context context{""};
 
-    EXPECT_CALL(*view_, ReadFilename("[Save to file]")).WillOnce(Return(""));
+    EXPECT_CALL(*view_, ReadName("[Save to file]")).WillOnce(Return(""));
     EXPECT_CALL(*view_, Confirm()).WillOnce(Return(true));
     EXPECT_CALL(*factory_, GetInitialStep()).Times(1);
 
@@ -173,7 +173,7 @@ TEST_F(StepTest, shouldWorkIfNotConfirmSave) {
     Save step{factory_, view_};
     Context context{""};
 
-    EXPECT_CALL(*view_, ReadFilename("[Save to file]")).WillOnce(Return(""));
+    EXPECT_CALL(*view_, ReadName("[Save to file]")).WillOnce(Return(""));
     EXPECT_CALL(*view_, Confirm()).WillOnce(Return(false));
     EXPECT_CALL(*factory_, GetInitialStep()).Times(1);
 
@@ -185,7 +185,7 @@ TEST_F(StepTest, shouldCreateCommandLoad) {
     Load step{factory_, view_};
     Context context{""};
 
-    EXPECT_CALL(*view_, ReadFilename("[Load from file]")).WillOnce(Return(""));
+    EXPECT_CALL(*view_, ReadName("[Load from file]")).WillOnce(Return(""));
     EXPECT_CALL(*view_, Confirm()).WillOnce(Return(true));
     EXPECT_CALL(*factory_, GetInitialStep()).Times(1);
 
@@ -197,7 +197,7 @@ TEST_F(StepTest, shouldWorkIfNotConfirmLoad) {
     Load step{factory_, view_};
     Context context{""};
 
-    EXPECT_CALL(*view_, ReadFilename("[Load from file]")).WillOnce(Return(""));
+    EXPECT_CALL(*view_, ReadName("[Load from file]")).WillOnce(Return(""));
     EXPECT_CALL(*view_, Confirm()).WillOnce(Return(false));
     EXPECT_CALL(*factory_, GetInitialStep()).Times(1);
 

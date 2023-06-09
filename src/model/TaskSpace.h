@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TaskManager.h"
+#include "TaskSpace.h"
 #include "persistence/TaskPersister.h"
 
 namespace model {
@@ -10,18 +11,18 @@ namespace model {
  * \details Manages \b TaskManager and \b TaskPersister
  * \author Michael Kupriianov
  */
-class Model {
+class TaskSpace {
 public:
     /**
      * Constructor that creates an instance of the model
      * @param manager - pointer to \b TaskManager instance
      */
-    explicit Model(const std::shared_ptr<model::TaskManager>& manager) :
+    explicit TaskSpace(const std::shared_ptr<model::TaskManager>& manager) :
             manager_{manager} {}
     /**
      * Virtual destructor for correct inheritance
      */
-    virtual ~Model() = default;
+    virtual ~TaskSpace() = default;
 
     /**
      * Adds a new task
@@ -85,21 +86,17 @@ public:
      */
     virtual ManyCompositeTasks ShowAll(const TasksSortBy& sort_by);
 
-    /**
-     * Saves state of \b TaskManager to given file
-     * @param filename - string with name of file
-     * @return \b bool - is saving successful
-     */
-    virtual bool Save(const std::string& filename);
-    /**
-     * Loads state of \b TaskManager from existing file
-     * @param filename - string with name of file
-     * @return \b bool - is loading successful
-     * @warning Current state of \b TaskManager will be completely erased
-     */
-    virtual bool Load(const std::string& filename);
+    virtual bool Save(const std::string& name);
+
+    virtual bool Load(const std::string& name);
+
+    virtual bool CreateSpace (const std::string& name, const std::string& password);
+
+    virtual bool EnterSpace (const std::string& name, const std::string& password);
 private:
     const std::shared_ptr<TaskManager> manager_;
+    std::string name_;
+    std::string password_;
 };
 }
 
