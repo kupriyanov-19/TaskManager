@@ -4,6 +4,7 @@ namespace ui::step {
 enum class Type {
     HELP,
     QUIT,
+    MAIN_QUIT,
     PRINT,
     ADD,
     ADD_SUB,
@@ -14,6 +15,9 @@ enum class Type {
     SHOW_TASK,
     SHOW_BY_LABEL,
     SAVE,
-    LOAD
+    LOAD,
+    FIRST,
+    CREATE,
+    ENTER
 };
 }

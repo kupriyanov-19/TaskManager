@@ -1,6 +1,5 @@
 #include "Step.h"
 #include "ui/Factory.h"
-//#include "logging/Log.h"
 
 namespace ui::step {
 
@@ -19,7 +18,7 @@ Quit::Quit(const std::shared_ptr<Factory>& factory, const std::shared_ptr<View>&
         factory_{factory}, view_{view} {}
 
 std::shared_ptr<Step> Quit::execute(Context& context) {
-    view_->PrintQuit();
+    view_->PrintString("You left the space of tasks");
     context.set_command(std::make_shared<command::Quit>());
     return factory_->GetInitialStep();
 }
@@ -76,7 +75,7 @@ Save::Save(const std::shared_ptr<Factory>& factory, const std::shared_ptr<View>&
         factory_{factory}, view_{view} {}
 
 std::shared_ptr<Step> Save::execute(Context& context) {
-    const std::string filename{view_->ReadFilename(name())};
+    const std::string filename{view_->ReadName(name())};
     if (view_->Confirm())
         context.set_command(std::make_shared<command::Save>(filename));
     return factory_->GetInitialStep();
@@ -129,7 +128,7 @@ Load::Load(const std::shared_ptr<Factory>& factory, const std::shared_ptr<View>&
         factory_{factory}, view_{view} {}
 
 std::shared_ptr<Step> Load::execute(Context& context) {
-    const std::string filename{view_->ReadFilename(name())};
+    const std::string filename{view_->ReadName(name())};
     if (view_->Confirm())
         context.set_command(std::make_shared<command::Load>(filename));
     return factory_->GetInitialStep();

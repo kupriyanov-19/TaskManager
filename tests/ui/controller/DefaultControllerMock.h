@@ -6,7 +6,7 @@
 
 class DefaultControllerMock : public ui::DefaultController {
 public:
-    explicit DefaultControllerMock(const std::shared_ptr<model::Model>& model)
+    explicit DefaultControllerMock(const std::shared_ptr<model::TaskSpace>& model)
             : ui::DefaultController(model) {}
 
     MOCK_METHOD(bool, AddTask, (const Task&), (override));

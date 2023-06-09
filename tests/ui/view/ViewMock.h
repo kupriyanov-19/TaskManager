@@ -22,7 +22,7 @@ public:
     MOCK_METHOD(bool, ReadIfPrintSubtasks, (const std::string&), (override));
     MOCK_METHOD(std::string, ReadLabel, (const std::string&), (override));
     MOCK_METHOD(TasksSortBy, ReadSortBy, (const std::string&), (override));
-    MOCK_METHOD(std::string, ReadFilename, (const std::string&), (override));
+    MOCK_METHOD(std::string, ReadName, (const std::string&), (override));
 
     MOCK_METHOD(void, PrintManyTasksWithId, (const ManyTasksWithId&), (override));
     MOCK_METHOD(void, PrintCompositeTask, (const CompositeTask&), (override));

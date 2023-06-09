@@ -47,7 +47,7 @@ TEST_F(ViewTest, ShouldPrintQuit) {
 TEST_F(ViewTest, ShouldReadCommand) {
     EXPECT_CALL(*printer_, PrintString("> "))
             .Times(3);
-    EXPECT_CALL(*printer_, PrintString("There is no such command\n"))
+    EXPECT_CALL(*printer_, PrintString("There is no such command. You can use the command 'help' if you have any problems.\n"))
             .Times(2);
     EXPECT_CALL(*reader_, ReadString())
             .Times(3)
@@ -124,7 +124,7 @@ TEST_F(ViewTest, ShouldReadDate) {
             .WillOnce(Return("15/13"))
             .WillOnce(Return("4/4"));
 
-    EXPECT_EQ((view_->ReadDate("")).seconds(), 61575627600);
+    EXPECT_EQ((view_->ReadDate("")).seconds(), 1680555600);
 }
 
 TEST_F(ViewTest, ShouldReadLabels) {
@@ -190,16 +190,16 @@ TEST_F(ViewTest, ShouldReadSortBy) {
 }
 
 TEST_F(ViewTest, ShouldReadFilename) {
-    EXPECT_CALL(*printer_, PrintString(" filename: "))
+    EXPECT_CALL(*printer_, PrintString(" name: "))
             .Times(2);
-    EXPECT_CALL(*printer_, PrintString("Filename should be non-empty\n"))
+    EXPECT_CALL(*printer_, PrintString("Name should be non-empty\n"))
             .Times(1);
     EXPECT_CALL(*reader_, ReadString())
             .Times(2)
             .WillOnce(Return(""))
             .WillOnce(Return("filename"));
 
-    EXPECT_EQ(view_->ReadFilename(""), "filename");
+    EXPECT_EQ(view_->ReadName(""), "filename");
 }
 
 TEST_F(ViewTest, ShouldPrintManyTasksWithId) {

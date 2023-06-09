@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Controller.h"
-#include "model/Model.h"
+#include "model/TaskSpace.h"
 
 namespace ui {
 class DefaultController : public Controller {
 public:
-    explicit DefaultController(const std::shared_ptr<model::Model>& model) : model_{model} {}
+    explicit DefaultController(const std::shared_ptr<model::TaskSpace>& model) : model_{model} {}
     ~DefaultController() override = default;
 
     bool AddTask(const Task& task) override { return model_->AddTask(task); }
@@ -30,7 +30,10 @@ public:
 
     bool Save(const std::string& filename) override { return model_->Save(filename); }
     bool Load(const std::string& filename) override { return model_->Load(filename); }
+
+    bool Create(const std::string& filename, const std::string& password) override { return model_->CreateSpace(filename, password); }
+    bool Enter(const std::string& filename, const std::string& password) override { return model_->EnterSpace(filename, password); }
 private:
-    const std::shared_ptr<model::Model> model_;
+    const std::shared_ptr<model::TaskSpace> model_;
 };
 }

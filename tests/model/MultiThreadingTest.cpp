@@ -1,11 +1,11 @@
 #include "gtest/gtest.h"
 #include <thread>
-#include "model/Model.h"
+#include "model/TaskSpace.h"
 
 class MultiThreadingTest : public ::testing::Test {
 public:
     void SetUp() override {
-        model_ = std::make_shared<model::Model>(
+        model_ = std::make_shared<model::TaskSpace>(
                 std::make_shared<model::TaskManager>(std::make_shared<model::IdGenerator>()));
         commands_counter_ = 0;
     }
@@ -69,7 +69,7 @@ public:
             ExecuteRandomCommand();
     }
 protected:
-    std::shared_ptr<model::Model> model_;
+    std::shared_ptr<model::TaskSpace> model_;
     std::atomic<int> commands_counter_;
 };
 

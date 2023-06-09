@@ -1,18 +1,13 @@
 #include "GRPCEndPoint.h"
-//#include "logging/Log.h"
 #include "utilities/Convert.h"
 
 namespace model {
 
 grpc::Status GRPCEndPoint::AddTask(::grpc::ServerContext* context, const ::AddTaskRequest* request,
                                    ::AddTaskResponse* response) {
-//    LOG(debug, "Request with Task: {" + request->task().ShortDebugString() + "} received");
 
     auto result = model_->AddTask(request->task());
     response->set_result(result);
-
-//    LOG(debug, "Response " + static_cast<std::string>(
-//            response->result() ? "{task successfully added}" : "{cannot add task}") + " sent");
 
     return grpc::Status::OK;
 }
@@ -47,13 +42,9 @@ grpc::Status GRPCEndPoint::Complete(::grpc::ServerContext* context, const ::Comp
 
 grpc::Status GRPCEndPoint::ShowByLabel(::grpc::ServerContext* context, const ::ShowByLabelRequest* request,
                                        ::ShowByLabelResponse* response) {
-//    LOG(debug, "Request with label: {"
-//            + request->label() + "} and TasksSortBy: {" + convert::ToString(request->sort_by()) +"} received");
 
     auto tasks = model_->ShowByLabel(request->label(), request->sort_by());
     response->set_allocated_tasks(new ManyTasksWithId(tasks));
-
-//    LOG(debug, "Response from " + std::to_string(response->tasks().tasks_size())  + " tasks sent");
 
     return grpc::Status::OK;
 }
@@ -94,4 +85,20 @@ grpc::Status GRPCEndPoint::Load(::grpc::ServerContext* context,
     response->set_result(result);
     return grpc::Status::OK;
 }
+
+    grpc::Status GRPCEndPoint::Create(::grpc::ServerContext* context,
+                                    const ::CreateRequest* request,
+                                    ::CreateResponse* response) {
+        auto result = model_->CreateSpace(request->name(), request -> password());
+        response->set_result(result);
+        return grpc::Status::OK;
+    }
+
+    grpc::Status GRPCEndPoint::Enter(::grpc::ServerContext* context,
+                                    const ::EnterRequest* request,
+                                    ::EnterResponse* response) {
+        auto result = model_->EnterSpace(request->name(), request->password());
+        response->set_result(result);
+        return grpc::Status::OK;
+    }
 }

@@ -72,6 +72,8 @@ namespace convert {
         if (command == "show_by_label") return ui::step::Type::SHOW_BY_LABEL;
         if (command == "save") return ui::step::Type::SAVE;
         if (command == "load") return ui::step::Type::LOAD;
+        if (command == "create") return ui::step::Type::CREATE;
+        if (command == "enter") return ui::step::Type::ENTER;
         return std::nullopt;
     }
 
