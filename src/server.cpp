@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     std::cout<<"Where do you want to listen? Enter in the format: 'port'";
     std::string server_address;
     std::cin>>server_address;
-    if (server_address=="default") server_address = "0.0.0.0:1234";
+    if (server_address=="def") server_address = "0.0.0.0:1234";
     else server_address = "0.0.0.0:"+ server_address;
 
     grpc::ServerBuilder builder;
