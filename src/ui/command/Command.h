@@ -114,4 +114,18 @@ public:
 private:
     const std::string filename_;
 };
+
+    class Efficien : public Command {
+    public:
+        Result execute(const std::shared_ptr<Controller>&) override;
+        ~Efficien() override = default;
+    private:
+    };
+
+    class Stat : public Command {
+    public:
+        Result execute(const std::shared_ptr<Controller>&) override;
+        ~Stat() override = default;
+    private:
+    };
 }

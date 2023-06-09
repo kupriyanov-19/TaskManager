@@ -43,6 +43,8 @@ std::shared_ptr<Step> Print::execute(Context& context) {
         view_->PrintManyTasksWithId(context.result()->many_tasks.value());
     if (context.result()->many_composite_tasks.has_value())
         view_->PrintManyCompositeTasks(context.result()->many_composite_tasks.value());
+    if (context.result()->res.has_value())
+        view_->PrintString(context.result()->res.value());
     context.set_result();
     return factory_->GetInitialStep();
 }
@@ -117,8 +119,6 @@ std::shared_ptr<Step> ShowByLabel::execute(Context& context) {
     TasksSortBy sort_by{view_->ReadSortBy(name())};
 
     context.set_command(std::make_shared<command::ShowByLabel>(label, sort_by));
-//    LOG(debug, "Request to ShowByLabel with label: {" + label + "} and TasksSortBy: {"
-//              + convert::ToString(sort_by) + "} created");
     return factory_->GetInitialStep();
 }
 
@@ -135,4 +135,26 @@ std::shared_ptr<Step> Load::execute(Context& context) {
 }
 
 std::string Load::name() { return "[Load from file]"; }
+
+
+Efficien::Efficien(const std::shared_ptr<Factory>& factory, const std::shared_ptr<View>& view) :
+        factory_{factory}, view_{view} {}
+
+std::shared_ptr<Step> Efficien::execute(Context& context) {
+    context.set_command(std::make_shared<command::Efficien>());
+    return factory_->GetInitialStep();
+}
+
+std::string Efficien::name() { return "[Efficiency of completing tasks]"; }
+
+Stat::Stat(const std::shared_ptr<Factory>& factory, const std::shared_ptr<View>& view) :
+            factory_{factory}, view_{view} {}
+
+std::shared_ptr<Step> Stat::execute(Context& context) {
+    context.set_command(std::make_shared<command::Stat>());
+    return factory_->GetInitialStep();
+}
+
+std::string Stat::name() { return "[Statistics of composite tasks completion]"; }
+
 }

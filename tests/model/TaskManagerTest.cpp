@@ -129,7 +129,7 @@ TEST_F(TaskManagerTest, shouldCompleteTask) {
     EXPECT_TRUE(manager_->AddTask(CreateTask("first")));
     EXPECT_TRUE(manager_->AddSubTask(CreateTask("second"), CreateTaskId(0)));
     EXPECT_TRUE(manager_->Complete(CreateTaskId(0)));
-    EXPECT_EQ(manager_->ShowAll(TasksSortBy::ID).tasks().size(), 0);
+    EXPECT_EQ(manager_->ShowAll(TasksSortBy::ID).tasks().size(), 1);
 }
 
 TEST_F(TaskManagerTest, shouldReturnFalseWhenCompleteIfIDNotExist) {
