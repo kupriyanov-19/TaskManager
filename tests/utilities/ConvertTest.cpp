@@ -16,7 +16,7 @@ TEST_F(ConvertTest, shouldConvertStringToPriority) {
 
 TEST_F(ConvertTest, shouldConvertStringToDate) {
     EXPECT_EQ(convert::StringToDate(""), 0);
-    EXPECT_EQ(convert::StringToDate("23:00 11/11"), 61594808400);
+    EXPECT_EQ(convert::StringToDate("23:00 11/11").value(), 61594808400);
     EXPECT_EQ(convert::StringToDate("11:00 3/5"), 61578172800);
     EXPECT_EQ(convert::StringToDate("10:12 7/7"), 61583785920);
     EXPECT_EQ(convert::StringToDate("4/4"), 61575627600);
