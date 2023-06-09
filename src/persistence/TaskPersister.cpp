@@ -1,5 +1,5 @@
 #include "TaskPersister.h"
-#include <fstream>
+#include "utilities/CreateProtoObjects.h"
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/util/delimited_message_util.h>
 
@@ -7,6 +7,9 @@ bool TaskPersister::Save(const ManyHierarchicalTasks& tasks) {
     std::unique_lock lock(mutex_);
     std::ofstream file(filename_);
     if (!file.is_open()) return false;
+
+    Task t(CreateTask(password_));
+    google::protobuf::util::SerializeDelimitedToOstream(t, &file);
 
     for (const auto &[id, task]: tasks) {
         google::protobuf::util::SerializeDelimitedToOstream(id, &file);
@@ -21,12 +24,15 @@ std::optional<ManyHierarchicalTasks> TaskPersister::Load() {
     ManyHierarchicalTasks result;
 
     std::ifstream file(filename_);
-    if (!file.is_open()) return std::nullopt;
+    if (!file.is_open() || file.fail()) return std::nullopt;
 
     std::unique_ptr<google::protobuf::io::ZeroCopyInputStream> input =
             std::make_unique<google::protobuf::io::IstreamInputStream>(&file);
     HierarchicalTask task;
-    TaskId id;
+    TaskId id; Task t;
+
+    google::protobuf::util::ParseDelimitedFromZeroCopyStream(&t, input.get(), nullptr);
+    if (t.title()!=password_) return std::nullopt;
 
     while (google::protobuf::util::ParseDelimitedFromZeroCopyStream(&id, input.get(), nullptr) &&
            google::protobuf::util::ParseDelimitedFromZeroCopyStream(&task, input.get(), nullptr)) {
