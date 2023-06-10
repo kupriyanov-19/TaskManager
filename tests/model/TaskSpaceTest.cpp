@@ -5,7 +5,7 @@
 
 using ::testing::Return;
 
-class ModelTest : public ::testing::Test {
+class TaskSpaceTest : public ::testing::Test {
 public:
     void SetUp() override {
         manager_ = std::make_shared<TaskManagerMock>(std::make_shared<model::IdGenerator>());
@@ -17,39 +17,39 @@ protected:
     std::shared_ptr<model::TaskSpace> model_;
 };
 
-TEST_F(ModelTest, shouldAddTask) {
+TEST_F(TaskSpaceTest, shouldAddTask) {
     Task task{CreateTask("add")};
     EXPECT_CALL(*manager_, AddTask(task)).WillOnce(Return(true));
     EXPECT_TRUE(model_->AddTask(task));
 }
 
-TEST_F(ModelTest, shouldAddSubTask) {
+TEST_F(TaskSpaceTest, shouldAddSubTask) {
     Task task{CreateTask("add_sub")};
     TaskId id{CreateTaskId(1)};
     EXPECT_CALL(*manager_, AddSubTask(task, id)).WillOnce(Return(false));
     EXPECT_FALSE(model_->AddSubTask(task, id));
 }
 
-TEST_F(ModelTest, shouldEditTask) {
+TEST_F(TaskSpaceTest, shouldEditTask) {
     Task task{CreateTask("edit")};
     TaskId id{CreateTaskId(2)};
     EXPECT_CALL(*manager_, Edit(id, task)).WillOnce(Return(true));
     EXPECT_TRUE(model_->Edit(id, task));
 }
 
-TEST_F(ModelTest, shouldCompleteTask) {
+TEST_F(TaskSpaceTest, shouldCompleteTask) {
     TaskId id{CreateTaskId(3)};
     EXPECT_CALL(*manager_, Complete(id)).WillOnce(Return(true));
     EXPECT_TRUE(model_->Complete(id));
 }
 
-TEST_F(ModelTest, shouldDeleteTask) {
+TEST_F(TaskSpaceTest, shouldDeleteTask) {
     TaskId id{CreateTaskId(4)};
     EXPECT_CALL(*manager_, Delete(id)).WillOnce(Return(false));
     EXPECT_FALSE(model_->Delete(id));
 }
 
-TEST_F(ModelTest, shouldShowByLabel) {
+TEST_F(TaskSpaceTest, shouldShowByLabel) {
     std::string label = "label";
     TasksSortBy sort_by = TasksSortBy::PRIORITY;
     ManyTasksWithId tasks;
@@ -59,7 +59,7 @@ TEST_F(ModelTest, shouldShowByLabel) {
     EXPECT_EQ(model_->ShowByLabel(label, sort_by).tasks_size(), tasks.tasks_size());
 }
 
-TEST_F(ModelTest, shouldShowParents) {
+TEST_F(TaskSpaceTest, shouldShowParents) {
     TasksSortBy sort_by = TasksSortBy::DAT;
     ManyTasksWithId tasks;
     tasks.mutable_tasks()->Add(CreateTaskWithId(CreateTaskId(1), CreateTask("t")));
@@ -69,7 +69,7 @@ TEST_F(ModelTest, shouldShowParents) {
     EXPECT_EQ(model_->ShowParents(sort_by).tasks_size(), tasks.tasks_size());
 }
 
-TEST_F(ModelTest, shouldShowTask) {
+TEST_F(TaskSpaceTest, shouldShowTask) {
     TaskId id{CreateTaskId(5)};
     TasksSortBy sort_by = TasksSortBy::ID;
     CompositeTask task;
@@ -82,7 +82,7 @@ TEST_F(ModelTest, shouldShowTask) {
     EXPECT_EQ(result.task().id(), task.task().id());
 }
 
-TEST_F(ModelTest, shouldShowAllTasks) {
+TEST_F(TaskSpaceTest, shouldShowAllTasks) {
     TasksSortBy sort_by = TasksSortBy::DAT;
     ManyCompositeTasks tasks;
 
@@ -92,7 +92,7 @@ TEST_F(ModelTest, shouldShowAllTasks) {
     EXPECT_EQ(result.tasks_size(), tasks.tasks_size());
 }
 
-TEST_F(ModelTest, shouldWorkWithFile) {
+TEST_F(TaskSpaceTest, shouldWorkWithFile) {
     std::string filename = "model_test";
     ManyHierarchicalTasks tasks;
     tasks.emplace_back(CreateTaskId(3), CreateHierarchicalTask(CreateTask("f"), CreateTaskId(5)));
