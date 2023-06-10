@@ -9,11 +9,11 @@ View::View(const std::shared_ptr<Reader>& reader, const std::shared_ptr<Printer>
 void View::PrintGlobalHelp() {
     std::string output_string;
     output_string += "First of all, you need to enter an existing space of tasks or create a new one:\n";
-    output_string += " You can use such command:\n";
-    output_string += " create - Create new space of tasks\n";
-    output_string += " enter - Enter an existing space of tasks\n";
-    output_string += " delete - Delete an existing space of tasks\n";
-    output_string += " end - If you want to finish work\n";
+    output_string += "You can use such command:\n";
+    output_string += "create - Create new space of tasks\n";
+    output_string += "enter - Enter an existing space of tasks\n";
+    output_string += "delete - Delete an existing space of tasks\n";
+    output_string += "end - If you want to finish work\n";
     printer_->PrintString(output_string);
 }
 
