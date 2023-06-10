@@ -6,15 +6,15 @@ namespace ui {
 View::View(const std::shared_ptr<Reader>& reader, const std::shared_ptr<Printer>& printer)
         : reader_{reader}, printer_{printer} {}
 
-    void View::PrintGlobalHelp() {
-        std::string output_string;
-        output_string += "First of all, you need to enter an existing space of tasks or create a new one:\n";
-        output_string += "You can use such command:\n";
-        output_string += "create - Create new space of tasks\n";
-        output_string += "enter - Enter an existing space of tasks\n";
-        output_string += "end - If you want to finish work\n";
-        printer_->PrintString(output_string);
-    }
+void View::PrintGlobalHelp() {
+    std::string output_string;
+    output_string += "First of all, you need to enter an existing space of tasks or create a new one:\n";
+    output_string += "You can use such command:\n";
+    output_string += "create - Create new space of tasks\n";
+    output_string += "enter - Enter an existing space of tasks\n";
+    output_string += "end - If you want to finish work\n";
+    printer_->PrintString(output_string);
+}
 
 void View::PrintHelp() {
     std::string output_string;
@@ -37,17 +37,17 @@ void View::PrintQuit() {
     printer_->PrintString("Good luck!\n");
 }
 
-    step::Type View::ReadFirstCommand() {
-        printer_->PrintString("> ");
-        std::string command{reader_->ReadString()};
+step::Type View::ReadFirstCommand() {
+    printer_->PrintString("> ");
+    std::string command{reader_->ReadString()};
 
-        if (command=="create") return step::Type::CREATE;
-        if (command=="enter") return step::Type::ENTER;
-        if (command=="help") return step::Type::HELP;
-        if (command=="end") return step::Type::MAIN_QUIT;
-        printer_->PrintString("There is no such command. You can use the command 'help' if you have any problems.\n");
-        return ReadFirstCommand();
-    }
+    if (command=="create") return step::Type::CREATE;
+    if (command=="enter") return step::Type::ENTER;
+    if (command=="help") return step::Type::HELP;
+    if (command=="end") return step::Type::MAIN_QUIT;
+    printer_->PrintString("There is no such command. You can use the command 'help' if you have any problems.\n");
+    return ReadFirstCommand();
+}
 
 step::Type View::ReadCommand() {
     printer_->PrintString("> ");
@@ -174,16 +174,11 @@ std::string View::ReadName(const std::string& wizard) {
     return ReadName(wizard);
 }
 
-    std::string View::ReadPassword(const std::string& wizard) {
-        printer_->PrintString(wizard + " password: ");
-        std::string password{reader_->ReadString()};
-
-        if (!password.empty())
-            return password;
-
-        printer_->PrintString("Password should be non-empty\n");
-        return ReadName(wizard);
-    }
+std::string View::ReadPassword(const std::string& wizard) {
+    printer_->PrintString(wizard + " password (you can use empty password): ");
+    std::string password{reader_->ReadString()};
+    return password;
+}
 
 void View::PrintManyTasksWithId(const ManyTasksWithId& tasks) {
     for (const auto& task: tasks.tasks())
