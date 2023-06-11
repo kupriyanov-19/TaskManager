@@ -12,7 +12,7 @@ using ::testing::_;
 
 using namespace ui;
 
-class StepMachineTest : public ::testing::Test {
+class StateMachineTest : public ::testing::Test {
 public:
     void SetUp() override {
         view_ = std::make_shared<ViewMock>(std::make_shared<Reader>(), std::make_shared<Printer>());
@@ -29,7 +29,7 @@ protected:
     std::shared_ptr<DefaultControllerMock> controller_;
 };
 
-TEST_F(StepMachineTest, shouldRunWuthContext) {
+TEST_F(StateMachineTest, shouldRunWuthContext) {
     auto step_root = std::make_shared<StepRootMock>(factory_, view_);
     auto step_help = std::make_shared<StepHelpMock>(factory_, view_);
     auto step_quit = std::make_shared<StepQuitMock>(factory_, view_);
@@ -50,7 +50,7 @@ TEST_F(StepMachineTest, shouldRunWuthContext) {
     EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(step_root.get()));
 }
 
-TEST_F(StepMachineTest, shouldRunWuthController) {
+TEST_F(StateMachineTest, shouldRunWuthController) {
     auto step_root = std::make_shared<StepRootMock>(factory_, view_);
     auto step_help = std::make_shared<StepHelpMock>(factory_, view_);
     auto step_quit = std::make_shared<step::Quit>(factory_, view_);

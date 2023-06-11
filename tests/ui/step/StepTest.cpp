@@ -3,7 +3,6 @@
 #include "ui/step/Step.h"
 #include "ui/FactoryMock.h"
 #include "ui/view/ViewMock.h"
-//#include "logging/Initialisation.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -14,7 +13,6 @@ using namespace ui::step;
 class StepTest : public ::testing::Test {
 public:
     void SetUp() override {
- //       ConsoleLogging{boost::log::trivial::fatal};
 
         view_ = std::make_shared<ViewMock>(std::make_shared<Reader>(), std::make_shared<Printer>());
         factory_ = std::make_shared<FactoryMock>(view_);
