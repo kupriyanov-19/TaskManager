@@ -29,7 +29,7 @@ protected:
     std::shared_ptr<DefaultControllerMock> controller_;
 };
 
-TEST_F(StateMachineTest, shouldRunWuthContext) {
+TEST_F(StateMachineTest, shouldRunWithContext) {
     auto step_root = std::make_shared<StepRootMock>(factory_, view_);
     auto step_help = std::make_shared<StepHelpMock>(factory_, view_);
     auto step_quit = std::make_shared<StepQuitMock>(factory_, view_);

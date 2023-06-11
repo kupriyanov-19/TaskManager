@@ -27,6 +27,7 @@ public:
 
     bool Create(const std::string& name, const std::string& password) override;
     bool Enter(const std::string& name, const std::string& password) override;
+    bool DeleteSpace(const std::string& name, const std::string& password) override;
 private:
     std::shared_ptr<ModelService::StubInterface> stub_;
 };

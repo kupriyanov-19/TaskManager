@@ -18,6 +18,7 @@ enum class Type {
     LOAD,
     CREATE,
     ENTER,
+    DELETE_SPACE,
     EFF,
     STAT
 };

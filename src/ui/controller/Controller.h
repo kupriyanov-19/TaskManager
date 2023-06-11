@@ -88,9 +88,8 @@ public:
      * @return \b bool - is loading successful
      */
     virtual bool Load(const std::string& filename) = 0;
-
     virtual bool Enter(const std::string& name, const std::string& password) = 0;
-
     virtual bool Create(const std::string& filename, const std::string& password) = 0;
+    virtual bool DeleteSpace(const std::string& filename, const std::string& password) = 0;
 };
 }

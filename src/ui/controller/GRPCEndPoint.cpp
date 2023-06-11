@@ -140,4 +140,8 @@ bool GRPCEndPoint::Load(const std::string& filename) {
         grpc::Status status = stub_->Enter(&context, request, &response);
         return response.result();
     }
+
+    bool GRPCEndPoint::DeleteSpace(const std::string& name, const std::string& password) {
+        return true;
+    }
 }

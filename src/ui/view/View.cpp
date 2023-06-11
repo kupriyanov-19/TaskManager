@@ -214,4 +214,64 @@ void View::PrintManyCompositeTasks(const ManyCompositeTasks& tasks) {
 void View::PrintError(const command::Error& error) {
     printer_->PrintString(convert::ToString(error) + '\n');
 }
+std::string View::ReadIP() {
+    std::cout << "Where do you want to connect? Enter in the format 'host:port'";
+    std::string target_str;
+    std::cin >> target_str;
+    std::cin.ignore(3000, '\n');
+    if (target_str == "default") target_str = "localhost:1234";
+    if (target_str == "def") target_str = "192.168.0.104:1234";
+    return target_str;
+}
+
+bool View::ReadCreateData(std::string& name, std::string& password) {
+    const std::string name1{ReadName("[Create space of tasks]")};
+    const std::string password1{ReadPassword("[Create space of tasks]")};
+    const std::string password2{ReadPassword("[Create space of tasks] repeat")};
+    if (password1!=password2) {
+        PrintString("Passwords are not equivalent");
+        return false;
+    }
+    else {
+        if (Confirm()) {
+            name = name1; password = password1;
+            return true;
+        }
+        else return false;
+    }
+}
+
+void View::PrintCreateResult(bool good) {
+    if (good) PrintString("Space of tasks successfully created");
+    else PrintString("This space of tasks already exists");
+}
+
+bool View::ReadEnterData(std::string&name, std::string&password) {
+    const std::string name1{ReadName("[Enter space of tasks]")};
+    const std::string password1{ReadPassword("[Enter space of tasks]")};
+    name = name1; password = password1;
+    return true;
+}
+
+void View::PrintEnterResult(bool good, std::string& name) {
+    if (good) PrintString("You successfully entered the space of tasks: " + name);
+    else PrintString("Wrong name or password");
+}
+
+bool View::ReadDeleteData(std::string&name, std::string&password) {
+    const std::string name1{ReadName("[Delete space of tasks]")};
+    const std::string password1{ReadPassword("[Delete space of tasks]")};
+    name = name1; password = password1;
+    return true;
+}
+
+void View::PrintDeleteResult(bool good, std::string& name) {
+    if (good) PrintString("You successfully deleted the space of tasks: " + name);
+    else PrintString("Wrong name or password");
+}
+
+void View::PrintCheckResult(bool good) {
+    if (good) PrintString("You successfully connected to the server");
+    else PrintString("This server is unavailable, please try again");
+}
 }

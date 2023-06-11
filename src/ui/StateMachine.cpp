@@ -1,5 +1,6 @@
 #include "StateMachine.h"
 #include "step/Step.h"
+#include "utilities/CreateProtoObjects.h"
 
 namespace ui {
 
@@ -14,32 +15,25 @@ void StateMachine::Run(const std::shared_ptr<Controller>& controller) {
         if (c==step::Type::HELP) view->PrintGlobalHelp();
         if (c==step::Type::MAIN_QUIT) {view->PrintQuit(); return;}
         if (c==step::Type::CREATE) {
-            const std::string name{view->ReadName("[Create space of tasks]")};
-            const std::string password1{view->ReadPassword("[Create space of tasks]")};
-            const std::string password2{view->ReadPassword("[Create space of tasks] repeat")};
-            if (password1!=password2) view->PrintString("Passwords are not equivalent");
-            else {
-                if (view->Confirm()) {
-                    bool g = controller->Create(name, password1);
-                    if (g) {
-                        view->PrintString("Space of tasks successfully created");
-                        nm=name;
-                        break;
-                    }
-                    else view->PrintString("This space of tasks already exists");
-                }
+            std::string name, password;
+            if (view->ReadCreateData(name, password)) {
+                bool g = controller->Create(name, password);
+                view->PrintCreateResult(g);
+                if (g) break;
             }
         }
         if (c==step::Type::ENTER) {
-            const std::string name{view->ReadName("[Enter space of tasks]")};
-            const std::string password{view->ReadPassword("[Enter space of tasks]")};
+            std::string name, password;
+            view->ReadEnterData(name, password);
             bool g = controller->Enter(name, password);
-            if (g) {
-                view->PrintString("You successfully entered the space of tasks: " + name);
-                nm=name;
-                break;
-            }
-            else view->PrintString("Wrong name or password");
+            view->PrintEnterResult(g, name);
+            if (g) break;
+        }
+        if (c==step::Type::DELETE_SPACE) {
+            std::string name, password;
+            view->ReadDeleteData(name, password);
+            bool g = controller->DeleteSpace(name, password);
+            view->PrintDeleteResult(g, name);
         }
     }
 
@@ -57,4 +51,13 @@ void StateMachine::Run(Context& context) {
     while (!context.if_finished())
         step = step->execute(context);
 }
+
+bool StateMachine::Check(const std::shared_ptr<Controller>& controller) {
+    Task t(CreateTask(""));
+    controller->AddTask(t);
+    auto s = controller->ShowAll(TasksSortBy::ID);
+    if (s.tasks().size() >= 1) return true;
+    return false;
+}
+
 }

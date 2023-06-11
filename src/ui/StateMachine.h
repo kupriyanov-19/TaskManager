@@ -31,6 +31,7 @@ public:
      * @param context - instance of \b Context for steps
      */
     virtual void Run(Context& context);
+    virtual bool Check(const std::shared_ptr<Controller>& controller);
 private:
     const std::shared_ptr<step::Step> initial_step_;
 };
