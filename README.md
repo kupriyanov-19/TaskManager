@@ -30,12 +30,13 @@ cmake -- build .
 4. Get started:
 - If you want to launch server:
     - `./server` at Linux/MacOS
-    - `Debug/server.exe` at Windows
+    - `cd Debug`
+      `server.exe` at Windows
 - If you want to launch client:
     - `./client` at Linux/MacOS
-    - `Debug/client.exe` at Windows
+    - `cd Debug` `client.exe` at Windows
 - If you want to use the task manager locally:
     - `./TaskManager` at Linux/MacOS
-    - `Debug/TaskManager.exe` at Windows
+    - `cd Debug` `TaskManager.exe` at Windows
 
 Enter `help` if you want to know about possible commands.

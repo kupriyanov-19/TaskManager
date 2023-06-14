@@ -215,7 +215,7 @@ void View::PrintError(const command::Error& error) {
     printer_->PrintString(convert::ToString(error) + '\n');
 }
 std::string View::ReadIP() {
-    std::cout << "Where do you want to connect? Enter in the format 'host:port'";
+    std::cout << "Where do you want to connect? Enter host and port in the format '0.0.0.0:1234'";
     std::string target_str;
     std::cin >> target_str;
     std::cin.ignore(3000, '\n');
