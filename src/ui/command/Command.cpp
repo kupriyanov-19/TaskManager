@@ -103,12 +103,12 @@ Result Load::execute(const std::shared_ptr<Controller>& controller) {
         for(auto task: tasks.tasks()) {
             if (task.task().task().status() == Task_Status_COMPLETED) {
                 number++;
-                if (task.task().task().date().seconds()<=task.task().task().end().seconds()) eff++;
+                if (task.task().task().date().seconds()>=task.task().task().end().seconds()) eff++;
             }
              for(auto t : task.children()) {
                  if (t.task().status()==Task_Status_COMPLETED) {
                      number++;
-                     if (t.task().date().seconds()<=t.task().end().seconds()) eff++;
+                     if (t.task().date().seconds()>=t.task().end().seconds()) eff++;
                  }
              }
         }
