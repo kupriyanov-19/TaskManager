@@ -130,7 +130,7 @@ Result Load::execute(const std::shared_ptr<Controller>& controller) {
         for(auto task: tasks.tasks()) {
             res+="\nFrom task "+ task.task().task().title() + ": ";
             if (task.task().task().status() == Task_Status_COMPLETED) {
-                res+="100%\n"; continue;
+                res+="100%"; continue;
             }
             int number = 0; int eff = 0;
             for(auto t : task.children()) {
