@@ -7,7 +7,8 @@
 
 int main(int argc, char **argv) {
     while (true) {
-        auto view = std::make_shared<ui::View>(std::make_shared<ui::Reader>(), std::make_shared<ui::Printer>());
+        auto view = std::make_shared<ui::View>(std::make_shared<ui::Reader>(),
+                std::make_shared<ui::Printer>());
         auto factory = std::make_shared<ui::Factory>(view);
         auto machine = std::make_shared<ui::StateMachine>(factory->GetInitialStep());
 
@@ -15,7 +16,8 @@ int main(int argc, char **argv) {
 
         std::shared_ptr<ui::Controller> controller =
                 std::make_shared<ui::GRPCEndPoint>(
-                        ModelService::NewStub(grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials())));
+                        ModelService::NewStub(grpc::CreateChannel(target_str,
+                                                                  grpc::InsecureChannelCredentials())));
 
         if (machine->Check(controller)) {
             machine->Run(controller);
@@ -25,3 +27,5 @@ int main(int argc, char **argv) {
         else view->PrintCheckResult(false);
     }
 }
+
+

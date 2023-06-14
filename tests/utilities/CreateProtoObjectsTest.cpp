@@ -5,7 +5,7 @@
 class CreateProtoObjectsTest : public ::testing::Test {
 };
 
-TEST_F(CreateProtoObjectsTest, ShiuldCreateTaskId) {
+TEST_F(CreateProtoObjectsTest, ShouldCreateTaskId) {
     const int value{3};
     const TaskId id{CreateTaskId(value)};
 
