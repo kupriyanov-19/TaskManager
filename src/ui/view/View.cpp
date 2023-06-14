@@ -44,6 +44,7 @@ step::Type View::ReadFirstCommand() {
 
     if (command=="create") return step::Type::CREATE;
     if (command=="enter") return step::Type::ENTER;
+    if (command=="delete") return step::Type::DELETE_SPACE;
     if (command=="help") return step::Type::HELP;
     if (command=="end") return step::Type::MAIN_QUIT;
     printer_->PrintString("There is no such command. You can use the command 'help' if you have any problems.\n");

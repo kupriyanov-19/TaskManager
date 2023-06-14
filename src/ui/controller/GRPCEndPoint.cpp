@@ -124,6 +124,7 @@ bool GRPCEndPoint::Load(const std::string& filename) {
     bool GRPCEndPoint::Create(const std::string& name, const std::string& password) {
         CreateRequest request;
         request.set_name(name);
+        request.set_password(password);
         CreateResponse response;
         grpc::ClientContext context;
 
@@ -134,6 +135,7 @@ bool GRPCEndPoint::Load(const std::string& filename) {
     bool GRPCEndPoint::Enter(const std::string& name, const std::string& password) {
         EnterRequest request;
         request.set_name(name);
+        request.set_password(password);
         EnterResponse response;
         grpc::ClientContext context;
 
@@ -142,6 +144,13 @@ bool GRPCEndPoint::Load(const std::string& filename) {
     }
 
     bool GRPCEndPoint::DeleteSpace(const std::string& name, const std::string& password) {
-        return true;
+        DeleteSpaceRequest request;
+        request.set_name(name);
+        request.set_password(password);
+        DeleteSpaceResponse response;
+        grpc::ClientContext context;
+
+        grpc::Status status = stub_->DeleteSpace(&context, request, &response);
+        return response.result();
     }
 }

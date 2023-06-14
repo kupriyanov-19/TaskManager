@@ -33,7 +33,7 @@ public:
 
     bool Create(const std::string& filename, const std::string& password) override { return model_->CreateSpace(filename, password); }
     bool Enter(const std::string& filename, const std::string& password) override { return model_->EnterSpace(filename, password); }
-    bool DeleteSpace(const std::string& filename, const std::string& password) override {return true;}
+    bool DeleteSpace(const std::string& filename, const std::string& password) override {return model_->DeleteSpace(filename, password);}
 private:
     const std::shared_ptr<model::TaskSpace> model_;
 };

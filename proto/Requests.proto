@@ -59,3 +59,8 @@ message CreateRequest {
   string name = 1;
   string password = 2;
 }
+
+message DeleteSpaceRequest {
+  string name = 1;
+  string password = 2;
+}

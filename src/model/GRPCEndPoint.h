@@ -37,6 +37,8 @@ public:
                       ::CreateResponse* response) override;
     grpc::Status Enter(::grpc::ServerContext* context, const ::EnterRequest* request,
                       ::EnterResponse* response) override;
+    grpc::Status DeleteSpace(::grpc::ServerContext* context, const ::DeleteSpaceRequest* request,
+                       ::DeleteSpaceResponse* response) override;
 
 private:
     std::shared_ptr<TaskSpace> model_;

@@ -65,8 +65,25 @@ bool TaskSpace::CreateSpace(const std::string& name, const std::string& password
 }
 
 bool TaskSpace::EnterSpace(const std::string& name, const std::string& password) {
+    std::ifstream file(name);
+    if (file.fail()) return false;
+    file.close();
+    name_=name; password_=password;
+
     if (Load("")) {
-        name_=name; password_=password;
+        return true;
+    }
+    else return false;
+}
+
+bool TaskSpace::DeleteSpace(const std::string& name, const std::string& password) {
+    std::ifstream file(name);
+    if (file.fail()) return false;
+    file.close();
+    name_=name; password_=password;
+
+    if (Load("")) {
+        remove(name.c_str());
         return true;
     }
     else return false;

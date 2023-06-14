@@ -101,4 +101,12 @@ grpc::Status GRPCEndPoint::Load(::grpc::ServerContext* context,
         response->set_result(result);
         return grpc::Status::OK;
     }
+
+    grpc::Status GRPCEndPoint::DeleteSpace(::grpc::ServerContext* context,
+                                     const ::DeleteSpaceRequest* request,
+                                     ::DeleteSpaceResponse* response) {
+        auto result = model_->DeleteSpace(request->name(), request->password());
+        response->set_result(result);
+        return grpc::Status::OK;
+    }
 }

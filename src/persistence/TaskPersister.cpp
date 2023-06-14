@@ -24,7 +24,7 @@ std::optional<ManyHierarchicalTasks> TaskPersister::Load() {
     ManyHierarchicalTasks result;
 
     std::ifstream file(filename_);
-    if (!file.is_open() || file.fail()) return std::nullopt;
+    if (!file.is_open() || file.fail()) {file.close(); return std::nullopt;}
 
     std::unique_ptr<google::protobuf::io::ZeroCopyInputStream> input =
             std::make_unique<google::protobuf::io::IstreamInputStream>(&file);
@@ -32,7 +32,8 @@ std::optional<ManyHierarchicalTasks> TaskPersister::Load() {
     TaskId id; Task t;
 
     google::protobuf::util::ParseDelimitedFromZeroCopyStream(&t, input.get(), nullptr);
-    if (t.title()!=password_) return std::nullopt;
+
+    if (t.title()!=password_) {file.close(); return std::nullopt;}
 
     while (google::protobuf::util::ParseDelimitedFromZeroCopyStream(&id, input.get(), nullptr) &&
            google::protobuf::util::ParseDelimitedFromZeroCopyStream(&task, input.get(), nullptr)) {

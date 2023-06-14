@@ -93,6 +93,8 @@ public:
     virtual bool CreateSpace (const std::string& name, const std::string& password);
 
     virtual bool EnterSpace (const std::string& name, const std::string& password);
+
+    virtual bool DeleteSpace (const std::string& name, const std::string& password);
 private:
     const std::shared_ptr<TaskManager> manager_;
     std::string name_;
