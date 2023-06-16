@@ -20,8 +20,8 @@ int main(int argc, char **argv) {
                                                                   grpc::InsecureChannelCredentials())));
 
         if (machine->Check(controller)) {
-            machine->Run(controller);
             view->PrintCheckResult(true);
+            machine->Run(controller);
             break;
         }
         else view->PrintCheckResult(false);
